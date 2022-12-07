@@ -5,7 +5,6 @@ import {movieRouter} from './routes/movie.js';
 import {createConnection} from "./utils/dbUtils.js";
 import {commentRouter} from "./routes/comments.js";
 
-
 const app = express();
 const port = 5000;
 
@@ -22,7 +21,6 @@ app.use('/clientes', clientRouter)
 app.use('/movies', movieRouter)
 app.use('/comments', commentRouter)
 
-//inicia o servidor
 app.listen(port, () => {
     createConnection();
     console.info(`[server] Listening on port: ${port}/`);

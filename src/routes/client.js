@@ -5,7 +5,7 @@ import {callbackTest} from "../utils/responseUtils.js";
 const router = Router();
 const collectionName = 'clients'
 
-router.get('/:id?', async function (req, res, next) {
+router.get('/:id?', async function (req, res) {
     await callbackTest(async () => {
         const db = await connect();
         if (req.params.id)
@@ -15,7 +15,7 @@ router.get('/:id?', async function (req, res, next) {
     });
 })
 
-router.post('',async function (req, res, next) {
+router.post('', async function (req, res) {
     await callbackTest(async () => {
         const {_id, name, email, age, sex} = req.body;
         const db = await connect();
@@ -23,7 +23,7 @@ router.post('',async function (req, res, next) {
     });
 })
 
-router.put('/:id', async function (req, res, next) {
+router.put('/:id', async function (req, res) {
     await callbackTest(async () => {
         const {name, email, age, sex} = req.body;
         const db = await connect();
@@ -38,7 +38,7 @@ router.put('/:id', async function (req, res, next) {
     });
 })
 
-router.delete('/:id', async function (req, res, next) {
+router.delete('/:id', async function (req, res) {
     await callbackTest(async () => {
         const db = await connect();
         res.json(await db.collection(collectionName).deleteOne({_id: Number(req.params.id)}));
