@@ -17,23 +17,18 @@ router.get('/:id?', async function (req, res, next) {
 
 router.post('', async function (req, res, next) {
     await callbackTest(async () => {
-        const {_id, name, email, age, sex} = req.body;
+        const {_id, name, description, rating, duration} = req.body;
         const db = await connect();
-        res.json(await db.collection(collectionName).insertOne({_id, name, email, age, sex}));
+        res.json(await db.collection(collectionName).insertOne({_id, name, description, rating, duration}));
     });
 })
 
 router.put('/:id', async function (req, res, next) {
     await callbackTest(async () => {
-        const {name, email, age, sex} = req.body;
+        const {name, description, rating, duration} = req.body;
         const db = await connect();
         res.json(await db.collection(collectionName).updateOne({_id: Number(req.params.id)}, {
-            $set: {
-                name,
-                email,
-                age,
-                sex
-            }
+            $set: {name, description, rating, duration}
         }));
     });
 })
