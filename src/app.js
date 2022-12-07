@@ -2,6 +2,8 @@ import express from 'express';
 import {clientRouter} from './routes/client.js';
 import cors from 'cors';
 import {movieRouter} from './routes/movie.js';
+import {createConnection} from "./utils/dbUtils.js";
+import {commentRouter} from "./routes/comments.js";
 
 
 const app = express();
@@ -14,12 +16,14 @@ app.use(express.json());
 const router = express.Router();
 
 router.get('/', (req, res) => res.json({message: 'Funcionando!'}));
+app.use('/', router);
 
 app.use('/clientes', clientRouter)
 app.use('/movies', movieRouter)
-app.use('/', router);
+app.use('/comments', commentRouter)
 
 //inicia o servidor
 app.listen(port, () => {
+    createConnection();
     console.info(`[server] Listening on port: ${port}/`);
 });

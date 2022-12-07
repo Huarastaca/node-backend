@@ -5,7 +5,7 @@ export async function connect() {
     return await createConnection();
 }
 
-async function createConnection() {
+export async function createConnection() {
     const conn = await MongoClient.connect('mongodb+srv://murilo:murilo@murilocluster.ex1chvv.mongodb.net/test');
     if (!conn) return new Error(`Can't connect`);
     global.db = await conn.db('picstream');
