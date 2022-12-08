@@ -1,12 +1,12 @@
 import {Router} from "express";
 import {connect} from "../utils/dbUtils.js";
-import {callbackTest} from "../utils/responseUtils.js";
+import {dbRequest} from "../utils/responseUtils.js";
 
 const router = Router();
 const collectionName = 'movies'
 
 router.get('/:id?', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const db = await connect();
         if (req.params.id)
             res.json(await db.collection(collectionName).findOne({_id: Number(req.params.id)}));
@@ -16,7 +16,7 @@ router.get('/:id?', async function (req, res, next) {
 })
 
 router.post('', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const {_id, name, description, rating, duration} = req.body;
         const db = await connect();
         res.json(await db.collection(collectionName).insertOne({_id, name, description, rating, duration}));
@@ -24,7 +24,7 @@ router.post('', async function (req, res, next) {
 })
 
 router.put('/:id', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const {name, description, rating, duration} = req.body;
         const db = await connect();
         res.json(await db.collection(collectionName).updateOne({_id: Number(req.params.id)}, {
@@ -34,7 +34,7 @@ router.put('/:id', async function (req, res, next) {
 })
 
 router.delete('/:id', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const db = await connect();
         res.json(await db.collection(collectionName).deleteOne({_id: Number(req.params.id)}));
     })

@@ -1,20 +1,20 @@
 import {Router} from "express";
 import {connect} from "../utils/dbUtils.js";
-import {callbackTest} from "../utils/responseUtils.js";
+import {dbRequest} from "../utils/responseUtils.js";
 import moment from "moment";
 
 const router = Router();
 const collectionName = 'comments'
 
 router.get('/movies', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const db = await connect();
         res.json(await db.collection(collectionName).find({movie: Number(req.query.name)}).sort({time: -1}).toArray());
     });
 });
 
 router.get('/:id?', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const db = await connect();
         if (req.params.id)
             res.json(await db.collection(collectionName).findOne({_id: Number(req.params.id)}));
@@ -24,7 +24,7 @@ router.get('/:id?', async function (req, res, next) {
 });
 
 router.post('', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const {_id, comment, client, movie} = req.body;
         const time = moment().format('DD/MM/YYYY HH:mm:ss');
         const db = await connect();
@@ -33,7 +33,7 @@ router.post('', async function (req, res, next) {
 });
 
 router.put('/:id', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const {comment, client, movie} = req.body;
         const time = moment().format('DD/MM/YYYY HH:mm:ss');
         const db = await connect();
@@ -44,7 +44,7 @@ router.put('/:id', async function (req, res, next) {
 });
 
 router.delete('/:id', async function (req, res, next) {
-    await callbackTest(async () => {
+    await dbRequest(async () => {
         const db = await connect();
         res.json(await db.collection(collectionName).deleteOne({_id: Number(req.params.id)}));
     })

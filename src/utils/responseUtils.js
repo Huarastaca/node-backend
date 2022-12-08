@@ -1,7 +1,7 @@
 import res from "express/lib/response.js";
 
 
-export function callbackTest(recebendor) {
+export function dbRequest(recebendor) {
     try {
         recebendor();
     } catch (ex) {
